@@ -2,7 +2,7 @@ FROM php:7.1-fpm-alpine
 
 COPY config/php.ini /usr/local/etc/php/
 
-RUN apk add --update libmcrypt-dev icu-dev libpng-dev libjpeg-turbo-dev freetype-dev && \
+RUN apk add --update bash libmcrypt-dev icu-dev libpng-dev libjpeg-turbo-dev freetype-dev && \
     docker-php-ext-configure gd \
         --with-gd \
         --with-freetype-dir=/usr/include/ \
