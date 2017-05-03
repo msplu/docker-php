@@ -17,3 +17,8 @@ RUN docker-php-source extract && \
     docker-php-source delete
 
 RUN rm -rf /var/cache/apk/*
+
+RUN sed -i "s/^user\s*=.*/user = root/" /usr/local/etc/php-fpm.d/www.conf
+RUN sed -i "s/^group\s*=.*/group = root/" /usr/local/etc/php-fpm.d/www.conf
+
+CMD php-fpm -R
