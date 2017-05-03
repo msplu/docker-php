@@ -1,7 +1,5 @@
 FROM php:7.1-fpm-alpine
 
-COPY config/php.ini /usr/local/etc/php/
-
 RUN apk add --update bash sudo openssh libmcrypt-dev icu-dev libpng-dev libjpeg-turbo-dev freetype-dev && \
     docker-php-ext-configure gd \
         --with-gd \
