@@ -6,13 +6,14 @@ RUN apk add --update bash sudo openssh libmcrypt-dev icu-dev libpng-dev libjpeg-
         --with-freetype-dir=/usr/include/ \
         --with-png-dir=/usr/include/ \
         --with-jpeg-dir=/usr/include/ && \
-    docker-php-ext-install pdo pdo_mysql gd mcrypt intl opcache
+    docker-php-ext-install pdo pdo_mysql gd intl opcache
 
-# apcu
+# apcu & mcrypt
 RUN docker-php-source extract && \
     apk add --no-cache --virtual .phpize-deps-configure $PHPIZE_DEPS && \
     pecl install apcu && \
-    docker-php-ext-enable apcu && \
+    pecl install -f mcrypt && \
+    docker-php-ext-enable apcu mcrypt && \
     apk del .phpize-deps-configure && \
     docker-php-source delete
 
