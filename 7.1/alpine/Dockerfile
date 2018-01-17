@@ -1,6 +1,19 @@
 FROM php:7.1-fpm-alpine
 
-RUN apk add --update bash sudo openssh libmcrypt-dev icu-dev libpng-dev libjpeg-turbo-dev freetype-dev && \
+RUN apk add --update --no-cache \
+    bash \
+    sudo \
+    openssh \
+    libmcrypt-dev \
+    icu-dev \
+    libpng-dev \
+    libjpeg-turbo-dev \
+    freetype-dev \
+    g++ \
+    make \
+    autoconf \
+    yaml-dev && \
+
     docker-php-ext-configure gd \
         --with-gd \
         --with-freetype-dir=/usr/include/ \
@@ -15,6 +28,10 @@ RUN docker-php-source extract && \
     docker-php-ext-enable apcu && \
     apk del .phpize-deps-configure && \
     docker-php-source delete
+
+# yaml
+RUN pecl channel-update pecl.php.net
+RUN pecl install yaml-2.0.0 && docker-php-ext-enable yaml
 
 RUN rm -rf /var/cache/apk/*
 
