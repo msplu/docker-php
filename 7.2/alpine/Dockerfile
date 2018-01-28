@@ -1,6 +1,6 @@
 FROM php:7.2-fpm-alpine
 
-RUN apk add --update bash sudo openssh libmcrypt-dev icu-dev libpng-dev libjpeg-turbo-dev freetype-dev argon2 && \
+RUN apk add --update bash sudo openssh libmcrypt-dev icu-dev libpng-dev libjpeg-turbo-dev freetype-dev && \
     docker-php-ext-configure gd \
         --with-gd \
         --with-freetype-dir=/usr/include/ \
