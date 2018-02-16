@@ -29,6 +29,15 @@ RUN docker-php-source extract && \
     apk del .phpize-deps-configure && \
     docker-php-source delete
 
+# memcached
+RUN apk add --no-cache libmemcached-dev zlib-dev cyrus-sasl-dev git \
+    && docker-php-source extract \
+    && git clone --branch php7 https://github.com/php-memcached-dev/php-memcached.git /usr/src/php/ext/memcached/ \
+    && docker-php-ext-configure memcached \
+    && docker-php-ext-install memcached \
+    && docker-php-source delete \
+    && apk del --no-cache zlib-dev cyrus-sasl-dev git
+
 # yaml
 RUN pecl channel-update pecl.php.net
 RUN pecl install yaml-2.0.0 && docker-php-ext-enable yaml
