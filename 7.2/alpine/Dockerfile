@@ -6,7 +6,7 @@ RUN apk add --update bash sudo openssh libmcrypt-dev icu-dev libpng-dev libjpeg-
         --with-freetype-dir=/usr/include/ \
         --with-png-dir=/usr/include/ \
         --with-jpeg-dir=/usr/include/ && \
-    docker-php-ext-install pdo pdo_mysql gd intl opcache
+    docker-php-ext-install pdo pdo_mysql gd intl opcache zip
 
 # apcu & mcrypt
 RUN docker-php-source extract && \
