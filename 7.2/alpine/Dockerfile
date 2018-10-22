@@ -1,12 +1,24 @@
 FROM php:7.2-fpm-alpine
 
-RUN apk add --update bash sudo openssh libmcrypt-dev icu-dev libpng-dev libjpeg-turbo-dev freetype-dev && \
+RUN apk add --update --no-cache \
+    bash \
+    sudo \
+    openssh \
+    libmcrypt-dev \
+    icu-dev \
+    libpng-dev \
+    libjpeg-turbo-dev \
+    freetype-dev \
+    g++ \
+    make \
+    autoconf \
+    yaml-dev && \
     docker-php-ext-configure gd \
         --with-gd \
         --with-freetype-dir=/usr/include/ \
         --with-png-dir=/usr/include/ \
         --with-jpeg-dir=/usr/include/ && \
-    docker-php-ext-install pdo pdo_mysql gd intl opcache zip
+    docker-php-ext-install pdo pdo_mysql gd intl opcache zip mysqli
 
 # apcu & mcrypt
 RUN docker-php-source extract && \
@@ -16,6 +28,10 @@ RUN docker-php-source extract && \
     docker-php-ext-enable apcu mcrypt && \
     apk del .phpize-deps-configure && \
     docker-php-source delete
+
+# yaml
+RUN pecl channel-update pecl.php.net
+RUN pecl install yaml-2.0.0 && docker-php-ext-enable yaml
 
 RUN rm -rf /var/cache/apk/*
 
