@@ -18,7 +18,7 @@ RUN apk add --update --no-cache \
         --with-freetype-dir=/usr/include/ \
         --with-png-dir=/usr/include/ \
         --with-jpeg-dir=/usr/include/ && \
-    docker-php-ext-install pdo pdo_mysql gd mcrypt intl opcache zip mysqli
+    docker-php-ext-install pdo pdo_mysql gd mcrypt intl opcache zip mysqli calendar
 
 # apcu
 RUN docker-php-source extract && \
