@@ -29,6 +29,12 @@ RUN docker-php-source extract && \
     apk del .phpize-deps-configure && \
     docker-php-source delete
 
+# memcached
+RUN apk add --no-cache --update libmemcached-dev zlib \
+    && pecl channel-update pecl.php.net \
+    && pecl install memcached-3.1.3 \
+    && docker-php-ext-enable memcached
+
 # yaml
 RUN pecl channel-update pecl.php.net
 RUN pecl install yaml-2.0.0 && docker-php-ext-enable yaml
