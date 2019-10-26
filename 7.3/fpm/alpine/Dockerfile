@@ -4,7 +4,7 @@ RUN apk add --update --no-cache \
     bash \
     sudo \
     openssh \
-    libmcrypt-dev \
+    libzip-dev \
     icu-dev \
     libpng-dev \
     libjpeg-turbo-dev \
@@ -20,18 +20,17 @@ RUN apk add --update --no-cache \
         --with-jpeg-dir=/usr/include/ && \
     docker-php-ext-install pdo pdo_mysql gd intl opcache zip mysqli
 
-# apcu & mcrypt
+# apcu
 RUN docker-php-source extract && \
     apk add --no-cache --virtual .phpize-deps-configure $PHPIZE_DEPS && \
     pecl install apcu && \
-    pecl install -f mcrypt && \
-    docker-php-ext-enable apcu mcrypt && \
+    docker-php-ext-enable apcu && \
     apk del .phpize-deps-configure && \
     docker-php-source delete
 
 # yaml
 RUN pecl channel-update pecl.php.net
-RUN pecl install yaml-2.0.0 && docker-php-ext-enable yaml
+RUN pecl install yaml && docker-php-ext-enable yaml
 
 RUN rm -rf /var/cache/apk/*
 
