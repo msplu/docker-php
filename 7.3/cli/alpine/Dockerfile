@@ -10,4 +10,4 @@ RUN apk add --update --no-cache \
     --with-freetype-dir=/usr/include/ \
     --with-png-dir=/usr/include/ \
     --with-jpeg-dir=/usr/include/ && \
-    docker-php-ext-install pdo pdo_mysql zip gd
+    docker-php-ext-install pdo pdo_mysql zip gd pcntl shmop
