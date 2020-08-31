@@ -12,21 +12,34 @@ RUN apk add --update --no-cache \
     g++ \
     make \
     autoconf \
-    yaml-dev && \
+    yaml-dev \
+    bzip2-dev && \
     docker-php-ext-configure gd \
         --with-gd \
         --with-freetype-dir=/usr/include/ \
         --with-png-dir=/usr/include/ \
         --with-jpeg-dir=/usr/include/ && \
-    docker-php-ext-install pdo pdo_mysql gd intl opcache zip mysqli
+    docker-php-ext-install pdo pdo_mysql gd intl opcache zip mysqli bz2
 
 # apcu
 RUN docker-php-source extract && \
-    apk add --no-cache --virtual .phpize-deps-configure $PHPIZE_DEPS && \
+    apk add --update --no-cache --virtual .phpize-deps-configure $PHPIZE_DEPS && \
     pecl install apcu && \
     docker-php-ext-enable apcu && \
     apk del .phpize-deps-configure && \
     docker-php-source delete
+
+# Memcached
+ENV MEMCACHED_DEPS zlib-dev libmemcached-dev cyrus-sasl-dev
+RUN apk add --no-cache --update libmemcached-libs zlib
+RUN set -xe \
+    && apk add --no-cache --update --virtual .phpize-deps $PHPIZE_DEPS \
+    && apk add --no-cache --update --virtual .memcached-deps $MEMCACHED_DEPS \
+    && pecl install memcached \
+    && echo "extension=memcached.so" > /usr/local/etc/php/conf.d/20_memcached.ini \
+    && rm -rf /usr/share/php7 \
+    && rm -rf /tmp/* \
+    && apk del .memcached-deps .phpize-deps
 
 # yaml
 RUN pecl channel-update pecl.php.net
