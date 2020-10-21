@@ -10,7 +10,7 @@ RUN apk add --update --no-cache \
     --with-freetype-dir=/usr/include/ \
     --with-png-dir=/usr/include/ \
     --with-jpeg-dir=/usr/include/ && \
-    docker-php-ext-install pdo pdo_mysql zip gd pcntl shmop
+    docker-php-ext-install pdo pdo_mysql mysqli zip gd pcntl shmop
 
 # Memcached
 ENV MEMCACHED_DEPS zlib-dev libmemcached-dev cyrus-sasl-dev
