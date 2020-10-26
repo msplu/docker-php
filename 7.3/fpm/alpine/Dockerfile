@@ -13,13 +13,14 @@ RUN apk add --update --no-cache \
     make \
     autoconf \
     yaml-dev \
+    libxml2-dev \
     bzip2-dev && \
     docker-php-ext-configure gd \
         --with-gd \
         --with-freetype-dir=/usr/include/ \
         --with-png-dir=/usr/include/ \
         --with-jpeg-dir=/usr/include/ && \
-    docker-php-ext-install pdo pdo_mysql gd intl opcache zip mysqli bz2
+    docker-php-ext-install pdo pdo_mysql gd intl opcache zip mysqli bz2 soap
 
 # apcu
 RUN docker-php-source extract && \
